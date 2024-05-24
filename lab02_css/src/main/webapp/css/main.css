@@ -1,7 +1,9 @@
 @charset "UTF-8";
 body {
+    
     overflow: hidden;
     font-family: 'Roboto Slab', serif;
+    background-color: #9999ff;
 }
 
 h3 {
@@ -57,13 +59,10 @@ h3 {
     padding: 0.5rem;
     margin-top: 20px;
     border: 1px solid gray;
-    background-color: rgba(255, 255, 255, 0.1);
     border: 1px solid rgb(255, 255, 255, 0.5);
 }
 
-.profile img {
-    border-radius: 30%;
-}
+
 
 /* page 2 */
 
