@@ -40,9 +40,15 @@
                         <tbody>
                             <c:forEach var="p" items="${ posts }">
                                 <tr>
-                                    <td>${ p.id }</td>
                                     <%-- EL은 프로퍼티 이름으로 getter 메서드를 찾음. --%>
-                                    <td>${ p.title }</td>
+                                    <td>${ p.id }</td>      
+                                    <td>
+                                        <!-- c:url은 context root를 붙이지 않음. -->
+                                        <c:url var="postDetailPage" value="/post/details">
+                                            <c:param name="id" value="${p.id}"></c:param>
+                                        </c:url>
+                                        <a href="${postDetailPage}">${ p.title }</a>
+                                    </td>
                                     <td>${ p.author }</td>
                                     <td>${ p.modifiedTime }</td>
                                 </tr>
