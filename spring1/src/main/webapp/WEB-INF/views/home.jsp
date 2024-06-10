@@ -13,11 +13,17 @@
       crossorigin="anonymous">
 </head>
 <body>
-   <header>
-    <h1>Home</h1>
-    <h2>${now}</h2>
-   </header>
-    
+    <header>
+
+        <h1>Home</h1>
+        <h2>${now}</h2>
+        <!-- img alt="뉴욕" src="/spring1/images/newyork.jpg" -->
+        <!-- img alt="뉴욕" src="./images/newyork.jpg"  -->
+        <c:url var="newyork" value="/images/newyork.jpg" />
+        <img alt="뉴욕" src="${newyork}" />
+        <!-- img src="http://localhost:8080/spring1/images/newyork.jpg" -->
+    </header>
+
     <main>
         <h1>Contents</h1>
         <nav>
