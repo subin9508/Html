@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context" 
+    xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+        http://mybatis.org/schema/mybatis-spring https://mybatis.org/schema/mybatis-spring.xsd">
+
+    <!-- bean definitions here -->
+    <!-- HikariConfig 빈(bean) 생성을 위한 설정  -->
+    <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig"> <!-- 기본 생성자 -->
+        <!-- hikariConfig = new HikariConfig(); -->
+        <property name="driverClassName" value="oracle.jdbc.OracleDriver" />
+        <!-- hikariConfig.setDriverClassName(new OracleDriver()); -->
+        <property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:xe" />
+        <property name="username" value="jspstudy" />
+        <property name="password" value="jspstudy" />
+    </bean>
+    
+    <!-- HikariDataSource 빈 생성을 위한 설정 -->
+    <!-- ds = new HikariDataSource(hikariConfig); -->
+    <bean id="ds" class="com.zaxxer.hikari.HikariDataSource"> <!-- 아규먼트를 갖는 생성자를 호출 -->
+        <constructor-arg ref="hikariConfig" /> <!-- ref(참조 값): bean의 id(힙을 찾아가는 참조 변수 이름) 값으로 작성 --> 
+    </bean>
+    <!-- SqlSessionFactoryBean 생성을 위한 설정: 
+    데이터 소스를 이용해서 SQL 문장을 실행, 결과 처리해서 리턴할 수 있는 객체.
+    -->
+    <bean id="session" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="ds" /> <!-- name 대소문자 구별함. -->
+        <property name="mapperLocations" value="classpath:/mappers/**/*.xml" />
+        <property name="configLocation" value="classpath:mybatis-config.xml" />
+    </bean>
+    
+    <!-- MyBatis-Spring 프레임워크에서 생성하고 관리하는 bean을 설정:
+        base-package와 그 하위 패키지에 있는 인터페이스들을 구현한 객체를 생성해 줌.
+     -->
+    <mybatis:scan base-package="com.itwill.spring2.repository" />
+    
+    
+</beans>
