@@ -31,4 +31,32 @@
     <delete id="deletePost">
         delete from posts where id = #{id}
     </delete>
+    
+    <!-- posts 테이블에서 제목/내용/작성자로 검색. -->
+    <select id="search" resultType="Post">
+        <bind name="searchKeyword" value="'%' + keyword + '%'" /> <!-- 제목/내용/작성자로 검색 시(like 검색 시) where절 검색어
+        앞뒤로 % 붙이고 작성. -->
+        select * from posts 
+        <where>
+            <choose>
+                <when test='category.equals("t")'> <!-- xml, html은 속성 값에서 큰 따옴표, 작은 따옴표 구분 x  -->
+                <!-- 'category.equals("t")' : 아규먼트로 문자열을 넘겨야 하기 때문에 바깥 쪽이 작은 따옴표, 안 쪽이 큰 따옴표. -->
+                    upper(title) like upper(#{searchKeyword})
+                </when>
+                <when test='category.equals("c")'>
+                    upper(content) like upper(#{searchKeyword})
+                </when>
+                <when test='category.equals("tc")'>
+                    upper(title) like upper(#{searchKeyword})
+                    or
+                    upper(content) like upper(#{searchKeyword})
+                </when>
+                <when test='category.equals("a")'>
+                    upper(author) like upper(#{searchKeyword})
+                </when>
+            </choose>
+        </where>
+        order by id desc
+    </select>
+    
   </mapper>

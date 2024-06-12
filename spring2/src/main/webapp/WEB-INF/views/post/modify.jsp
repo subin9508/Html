@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Lab 5</title>
+<title>Spring Legacy 2</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
       rel="stylesheet" 
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
@@ -42,7 +42,7 @@
                             <textarea id="content" class="form-control"
                                 name="content" rows="5">${post.content}</textarea>
                         </div>
-                        <div class="mt-2">
+                        <div class="mt-2 d-none">
                             <%-- d-none: 해당 div를 화면에 나타내지 않음. --%>
                             <label for="author" class="form-label">작성자</label>
                             <input id="author" class="form-control"
@@ -51,14 +51,14 @@
                         </div>
                     </form>
                 </div>
-               <c:if test="${post.author eq signedInUser}"> 
+               <%--  <c:if test="${post.author eq signedInUser}"> --%>
                     <div class="card-footer">
                         <button id="btnDelete"
                             class="btn btn-outline-danger">삭제</button>
                         <button id="btnUpdate"
                             class="btn btn-outline-success">업데이트</button>
                     </div>
-                 </c:if> 
+               <%-- </c:if> --%>
             </div>
         </main>
     </div>

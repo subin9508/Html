@@ -24,14 +24,23 @@ public class PostDetailsController {
 	
 	private final PostService postService;
 	
-	@GetMapping("/details")
-	public void post(@RequestParam(name = "id") int id, Model model) {
+	@GetMapping({"/details", "modify"})
+	//-> GET 방식의 "/post/details", "/post/modify" 2개의 요청을 처리하는 메서드.
+	public void details(@RequestParam(name = "id") int id, Model model) {
+					//	|__ 디스패쳐 서블릿이 req.getParameter("id")을 실행하고, 그 값을 아규먼트에 저장.	
 		
-		log.debug("id={}", id);
+		log.debug("details(id={})", id);
 		
+		// 서비스 컴포넌트의 메서드를 호출해서 해당 id의 포스트를 검색(select).
 		Post post = postService.read(id);
-		model.addAttribute("post", post);
 		
+		// 뷰에 데이터를 전달하기 위해서 model 객체에 post를 속성으로 추가.
+		model.addAttribute("post", post);
+
+		// 리턴 타입이 void이므로 뷰의 이름은
+		// (1) 요청 주소가 /post/details인 경우 /WEB-INF/views/post/details.jsp
+		// (2) 요청 주소가 /post/modify인 경우 /WEB-INF/views/post/modify.jsp
+
 	}
 	
 

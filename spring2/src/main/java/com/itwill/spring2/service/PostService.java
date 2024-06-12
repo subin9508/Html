@@ -6,7 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.itwill.spring2.dto.PostCreateDto;
 import com.itwill.spring2.dto.PostListDto;
+import com.itwill.spring2.dto.PostSearchDto;
+import com.itwill.spring2.dto.PostUpdateDto;
 import com.itwill.spring2.repository.Post;
 import com.itwill.spring2.repository.PostDao;
 
@@ -40,7 +43,7 @@ public class PostService {
 		return list.stream().map(PostListDto::fromEntity).toList(); // map((x) -> PostListDto.fromEntity(x))
 	}
 	
-	public Post read(int id) {
+	public Post read(Integer id) {
 		log.debug("read(id={})", id);
 		
 		// 영속성 계층의 메서드를 호출해서 DB 테이블에서 id로 검색하는 SQL을 실행.
@@ -50,4 +53,40 @@ public class PostService {
 		return post; // 컨트롤러에게 검색한 Post 객체를 리턴.
 	}
 	
+	public int create(PostCreateDto dto) {
+		log.debug("create({})", dto);
+		
+		int result =  postDao.insertPost(dto.toEntity());
+		log.debug("insert 결과 = {}", result);
+		
+		return result;
+	}
+	
+	public int delete(int id) {
+		log.debug("delete(id={})", id);
+		
+		// 리포지토리 컴포넌트의 메서드를 호출해서 delete 쿼리를 실행.
+		int result = postDao.deletePost(id);
+		log.debug("delete 결과 = {}", result);
+		
+		return result;
+	}
+	
+	public int update(PostUpdateDto dto) {
+		log.debug("update({})", dto);
+		
+		int result = postDao.updatePost(dto.toEntity());
+		log.debug("update 결과 = {}", result);
+		
+		return result;
+	}
+
+	public List<PostSearchDto> search(PostSearchDto dto) {
+		log.debug("search({})", dto);
+
+		List<Post> list = postDao.search(dto);
+
+
+		return list.stream().map(PostSearchDto::fromEntity).toList();
+	}
 }

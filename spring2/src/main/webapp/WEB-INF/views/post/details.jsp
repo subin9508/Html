@@ -62,7 +62,7 @@
                     </form>
                 </div>
                 <%-- 글 작성자 아이디와 로그인 사용자 아이디가 같으면 수정하기 버튼을 보여줌. --%>
-                <c:if test="${post.author eq signedInUser}"> <%-- EL에서는 eq와 ==는 같은 의미. --%>
+                <%-- <c:if test="${post.author eq signedInUser}"> --%> <%-- EL에서는 eq와 ==는 같은 의미. --%>
                     <div class="card-footer">
                         <c:url var="postModifyPage" value="/post/modify">
                             <c:param name="id" value="${post.id}" />
@@ -70,7 +70,7 @@
                         <a class="btn btn-outline-primary"
                             href="${postModifyPage}">수정하기</a>
                     </div>
-                </c:if>
+                <%-- </c:if> --%>
             </div>
         </main>
     </div>
