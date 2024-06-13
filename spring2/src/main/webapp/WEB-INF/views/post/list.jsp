@@ -62,7 +62,6 @@
                                         </c:url>
                                         <a href="${postDetailPage}">${ p.title }</a>
                                     </td>
-                                    <td>${p.title}</td>
                                     <td>${p.author}</td>
                                     <td>${p.modifiedTime}</td>
                                 </tr>

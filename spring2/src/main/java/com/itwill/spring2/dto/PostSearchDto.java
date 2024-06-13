@@ -12,16 +12,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor @AllArgsConstructor @Builder
 
-public class PostSearchDto {
+public class PostSearchDto {    // new DTO();
+								// dto.setCategory("");
+								// dto.setKeyword("");
 	private String category;
 	private String keyword;
-	private Integer id;
-	private String title;
-	private String author;
-	private LocalDateTime modifiedTime;
 	
-	public static PostSearchDto fromEntity(Post post) { // DB의 post 객체에서 필요한 것만 찾아 list를 만들어주는 메서드.
-		return PostSearchDto.builder().id(post.getId()).title(post.getTitle()).author(post.getAuthor()).modifiedTime(post.getModifiedTime()).build();
-	}
 
 }
