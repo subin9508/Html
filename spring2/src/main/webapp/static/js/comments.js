@@ -30,6 +30,16 @@ document.addEventListener('DOMContentLoaded', () => { // document object의 컨�
     // 버튼에 클릭 이벤틀 리스너를 설정.
     btnRegisterComment.addEventListener('click', registerComment); 
     
+    // 부트스트랩 모달(다이얼로그) 객체 생성.
+    const commentModal = new bootstrap.Modal('div#commentModal', {backdrop: true});
+    
+    // 모달의 저장 버튼을 찾고, 클릭 이벤트 리스너를 설정.
+    const btnUpdateComment = document.querySelector('button#btnUpdateComment');
+    btnUpdateComment.addEventListener('click', updateComment);
+    
+    /*--------------------------------------------------------*/
+    
+    
     // 댓글 등록 이벤트 리스너 콜백(함수):
     function registerComment() { // function으로 함수 만들 때, 선언 순서는 중요하지 않다. 함수의 선언과 사용만 정확히 구분.
         // 댓글이 달릴 포스트 번호를 찾음.
@@ -131,6 +141,10 @@ document.addEventListener('DOMContentLoaded', () => { // document object의 컨�
             btn.addEventListener('click', deleteComment);
         }
         // TODO: 모든 수정 버튼들을 찾아서 클릭 이벤트 리스너를 설정.
+        const btnModifies = document.querySelectorAll('button.btnModifyComment');
+        for(let btn of btnModifies) {
+            btn.addEventListener('click', showCommentModal);
+        }
    }
    
    function deleteComment(event) {
@@ -160,6 +174,60 @@ document.addEventListener('DOMContentLoaded', () => { // document object의 컨�
     .catch((error) => {
         console.log(error);
     });
+   }
+   
+   function showCommentModal(event) {
+    // 이벤트 타겟(수정 버튼)의 data-id 속성 값을 읽음.
+    const id = event.target.getAttribute('data-id');
+    
+    // Ajax 요청을 보내서 댓글 아이디로 검색.
+    const uri = `../api/comment/${id}`;
+    axios
+    .get(uri)
+    .then((response) => {
+        console.log(response.data); // 리스폰스 객체가 항상 데이터 속성을 가지고 있다. (axios를 이용해서 Ajax 요청을 보낼 시)
+        // 모달의 input(댓글 번호), textarea(댓글 내용) value를 채움.
+        document.querySelector('input#modalCommentId').value = id;
+        document.querySelector('textarea#modalCommentText').value = response.data.ctext;
+        
+        // 모달을 보여줌.
+        commentModal.show();
+        
+        
+          
+    }) // 성공 콜백
+    .catch((error) => console.log(error)); // 실패 콜백
+   }
+   
+   // 댓글 업데이트 모달의 [저장] 버튼의 클릭 이벤트 리스너
+   function updateComment() {
+        // 업데이트할 댓글 번호
+        const id = document.querySelector('input#modalCommentId').value;
+        
+        // 업데이트할 댓글 내용
+        const ctext = document.querySelector('textarea#modalCommentText').value;
+        if(ctext === '') {
+            alert('업데이트할 댓글 내용을 입력하세요.');
+            return; // 이벤트 리스너를 종료
+        }
+        
+        // 댓글 업데이트 요청 REST API URI
+        const uri = `../api/comment/${id}`;
+        
+        // Ajax 요청
+        axios
+        .put(uri, { ctext }) // { ctext } = {ctext: ctext} -> 지역변수의 값을 지역변수 이름과 같은 객체에 저장할 때의 문법
+                             // { id, ctext } = {id: id, ctext: ctext}
+        .then((response) => {
+            console.log(response);
+            
+            getAllComments(); // 댓글 목록 갱신
+            alert('수정 완료');
+            
+            commentModal.hide(); // 모달 숨김
+        })
+        .catch((error) => console.log(error));
+        
    }
 
 });
