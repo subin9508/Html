@@ -6,8 +6,13 @@
 
 <!-- 아이디 중복 체크 -->
 <select id="selectByUserid" resultType="User">
-    select * from users where userid = #{userid}
+    select * from users where userid = #{userid} <!-- 조건을 만족하는 레코드를 찾을 수 없으면 null 리턴 -->
 </select>
 
+<!-- 회원 가입 -->
+<insert id="insert">
+    insert into users (userid, password, email)
+    values (#{userid}, #{password}, #{email})
+</insert>
 
 </mapper>

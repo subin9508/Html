@@ -10,6 +10,7 @@ import com.itwill.spring2.dto.PostCreateDto;
 import com.itwill.spring2.dto.PostListDto;
 import com.itwill.spring2.dto.PostSearchDto;
 import com.itwill.spring2.dto.PostUpdateDto;
+import com.itwill.spring2.repository.CommentDao;
 import com.itwill.spring2.repository.Post;
 import com.itwill.spring2.repository.PostDao;
 
@@ -30,6 +31,8 @@ public class PostService {
 //	public PostService(PostDao postDao) {
 //		this.postDao = postDao;
 //	}
+	
+	private final CommentDao commentDao;
 	
 	public List<PostListDto> read() {
 		log.debug("read()");
@@ -66,7 +69,8 @@ public class PostService {
 		log.debug("delete(id={})", id);
 		
 		// 리포지토리 컴포넌트의 메서드를 호출해서 delete 쿼리를 실행.
-		int result = postDao.deletePost(id);
+		int result = commentDao.deleteByPostId(id);
+		result = postDao.deletePost(id);
 		log.debug("delete 결과 = {}", result);
 		
 		return result;
