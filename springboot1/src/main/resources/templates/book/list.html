@@ -20,7 +20,9 @@
             <tr th:each="book : ${bookList}" th:object="${book}"> <!-- bookList에서 꺼낸 값들을 book에 저장 -->
                 <td th:text="*{id}"></td>
                 <td th:text="*{title}"></td>
-                <td th:if="*{author != null}" th:text="|*{author.firstName} *{author.lastName}|"></td>
+                <td th:text="*{author != null} ? |*{author.firstName} *{author.lastName}| : 'Unknown'"></td>
+                <!-- (조건식) ? (참일 때 사용할 값) : (거짓일 때 사용할 값) -->
+                
             </tr>
         </tbody>  
       </table>

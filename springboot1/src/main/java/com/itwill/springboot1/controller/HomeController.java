@@ -3,9 +3,12 @@ package com.itwill.springboot1.controller;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwill.springboot1.dto.Author;
 import com.itwill.springboot1.dto.Book;
@@ -67,4 +70,42 @@ public class HomeController {
 		model.addAttribute("bookList", list);
 		
 	}
+	
+	@GetMapping("/book/details")
+	public void bookDetails(@RequestParam(name ="id") int id, Model model) {
+		// 요청 파라미터 id 값을 찾고, 해당 id를 갖는 Book 객체를 만듦.
+		// 모델에 Book 객체를 속성(attribute)로 저장. 뷰로 전달.
+		
+		log.info("bookDetails(id={})", id);
+		
+		Book book = Book.builder()
+				.id(id)
+				.title("종의 기원")
+				.author(Author.builder().firstName("찰스").lastName("다윈").build())
+				.build();
+		
+		model.addAttribute("book" , book);
+		
+		
+		
+	}
+	
+	// TODO: path variable을 포함하는 요청을 처리하는 메서드
+	@GetMapping("/book/details/{id}")
+	public String bookDetails2(@PathVariable(name = "id") int id, Model model) { // 리턴 타입이 void가 되어버리면 주소 값이 무한히 생성되어야 하므로 설정할 수 없음. 
+		
+		log.info("bookDetails2(id={})", id);
+		
+		Book book = Book.builder()
+				.id(id)
+				.title("종의 기원")
+				.author(Author.builder().firstName("유정").lastName("정").build())
+				.build();
+		
+		model.addAttribute("book", book);
+		
+		return "book/details";
+		//-> templates/book/details.html
+	}
+	
 }
