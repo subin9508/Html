@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>부서 상세 정보</title>
+</head>
+<body>
+    <h1>부서 상세 정보</h1>
+    <div th:object="${department}">
+        <p>부서 번호: <span th:text="*{id}"></span></p>
+        <p>부서 이름: <span th:text="*{deptname}"></span></p>
+        <p>지역: <span th:text="*{location}"></span></p>
+    </div>
+    
+    
+    
+    <a th:href="@{/employee/list}">목록으로 돌아가기</a>
+</body>
+</html>

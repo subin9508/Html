@@ -4,7 +4,10 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -23,8 +26,10 @@ public class Employee {
 	private String ename;
 	private String job;
 	
-	@Column(name = "MGR")
-	private Integer manager;
+	@ToString.Exclude
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "MGR")
+	private Employee manager;
 	
 	private LocalDate hiredate;
 	
@@ -34,5 +39,8 @@ public class Employee {
 	@Column(name = "COMM")
 	private Double commission;
 	
-	private Integer deptno;
+	@ToString.Exclude // toString 메서드에서 출력 문자열에서 제외 (toString에 department는 나오지 않음)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "DEPTNO") // EMP 테이블에서 DEPT 테이블과 join하는 컬럼 이름.
+	private Department department; // 타입에 엔터티 클래스 이름을 사용.
 }

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>직원 상세 정보</title>
+</head>
+<body>
+    <h1>직원 상세 정보</h1>
+    <div th:object="${employee}">
+        <p>사번: <span th:text="*{id}"></span></p>
+        <p>이름: <span th:text="*{ename}"></span></p>
+        <p>직무: <span th:text="*{job}"></span></p>
+        <p>매니저: 
+            <a th:if="*{manager != null}" th:href="@{/employee/details(id=*{manager.id})}" th:text="*{manager.ename}"></a>
+            <span th:if="*{manager == null}">없음</span>
+        </p>
+        <p>입사일: <span th:text="*{hiredate}"></span></p>
+        <p>급여: <span th:text="*{salary}"></span></p>
+        <p>수당: <span th:text="*{commission}"></span></p>
+        <p>부서: <a th:href="@{/department/details(id=*{department.id})}" th:text="*{department.deptname}"></a></p>
+    </div>
+    <a th:href="@{/employee/list}">목록으로 돌아가기</a>
+</body>
+</html>

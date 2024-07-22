@@ -9,7 +9,8 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import com.itwill.springboot2.domain.Employee;
 
@@ -22,14 +23,14 @@ public class EmployeeRepositoryTest {
 	@Autowired // 의존성 주입(DI: dependency injection), 제어의 역전(IoC: Inversion of Control)
 	private EmployeeRepository empRepo;
 	
-	@Test
+//	@Test
 	public void test() {
 		assertThat(empRepo).isNotNull(); // empRepo 객체가 null이 아니면 테스트 성공.
 		log.info("{}", empRepo);
 	}
 	
 	// select * from emp
-	@Test
+//	@Test
 	public void findAllTest() {
 		List<Employee> list = empRepo.findAll();
 		assertThat(list.size()).isEqualTo(14);
@@ -39,22 +40,48 @@ public class EmployeeRepositoryTest {
 		}
 	}
 	
-	@Test
+	
+	@Transactional
+//	@Test
 	public void findByEmployeeNumberTest() {
-		Integer empNo = 7900;
+		Integer empNo = 7788;
 		Optional<Employee> result = empRepo.findById(empNo);
 		
 		assertThat(result).isPresent();
 		Employee employee = result.get();
+		// Employee employee = result.orElseGet(() -> null); 
+		// assertThat(result).isNotNull(); : 사번이 존재하는 직원을 리턴해야 하기 때문에 null이 아니어야 함.
 		assertThat(employee.getId()).isEqualTo(empNo);
 		
 		log.info("Employee found: {}", employee);
+		log.info("scott={}", employee);
+		log.info("dept={}", employee.getDepartment());
 		
+		
+		// 사번이 테이블에 없는 경우:
+		Integer empNo2 = 10000;
+		Optional<Employee> result2 = empRepo.findById(empNo2);
+		Employee none = result2.orElseGet(() -> null); // 사번이 존재하지 않는 직원이기 때문에 무조건 null을 리턴.
+		assertThat(none).isNull();
+	
+	}
+	
+	@Transactional
+	@Test
+	public void findManagerTest() {
+		// 사번이 7369인 직원 정보 검색:
+		Employee emp = empRepo.findById(7369).orElseThrow(); // Optional을 쓰고 싶지 않을 때의 코드.
+		// Optional<Employee> emp = empRepo.findById(7369); 
+		assertThat(emp.getId()).isEqualTo(7369);
+		log.info("emp={}", emp);
+		
+		Employee mgr = emp.getManager();
+		assertThat(mgr.getId()).isEqualTo(7902); // 7369 직원의 매니저 사번은 7902이다.
+		log.info("mgr={}", mgr);
 		
 		
 	}
 	
-	// TODO: DEPT 테이블과 매핑되는 엔터티 클래스를 설계, 리포지토리 인터페이스 작성
-	// TODO: 단위 테스트 클래스 작성.
+
 	
 }
