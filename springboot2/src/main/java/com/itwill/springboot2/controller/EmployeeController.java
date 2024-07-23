@@ -32,7 +32,7 @@ public class EmployeeController {
 		// 서비스(비즈니스)계층의 메서드를 호출해서 데이터 베이스에 있는 직원 목록을 가져옴.
 		List<Employee> list = empSvc.read();
 		
-		// 직원 목록을 뷰 템플릿에게 전달.
+		// 직원 목록을 뷰 템플릿에게 전달. (리턴 값이 없으면 주소 값이 곧 뷰 파일의 이름.)
 		model.addAttribute("employees", list);
 	}
 	

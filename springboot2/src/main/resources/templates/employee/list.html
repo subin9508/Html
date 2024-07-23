@@ -24,7 +24,9 @@
             </thead>
             <tbody>
                 <tr th:each="emp : ${employees}" th:object="${emp}">
-                    <td th:text="*{id}"></td>
+                    <td>
+                        <a  th:href="@{/employee/details(id=*{id})}" th:text="*{id}"></a>
+                    </td>
                     <td>
                         <a  th:href="@{/employee/details(id=*{id})}" th:text="*{ename}"></a>
                     </td>

@@ -27,7 +27,7 @@ public class Employee {
 	private String job;
 	
 	@ToString.Exclude
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY) // 실제로 매니저 값이 필요할 때 다시 한번 select 함. (처음부터 join해서 모든 값을 불러오지 않음)
 	@JoinColumn(name = "MGR")
 	private Employee manager;
 	

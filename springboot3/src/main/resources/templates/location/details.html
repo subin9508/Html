@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+       <meta charset="UTF-8">
+       <title>Spring Boot 3</title>
+    </head>
+    <body>
+       <div th:replace="~{/layout/fragments :: pageHeader('위치 상세 페이지')}"></div>
+     <main>
+        <table>
+            <thead>
+                <tr>
+                    <th>위치 번호</th>
+                    <th>주소</th>
+                    <th>우편번호</th>
+                    <th>도시</th>
+                    <th>구역</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:object="${location}">
+                    <td th:text="*{id}"></td>
+                    <td th:text="*{streetAddress}"></td>
+                    <td th:text="*{postalCode}"></td>
+                    <td th:text="*{city}"></td>
+                    <td th:text="*{stateProvince}"></td>
+                    <td th:text="*{country.id}"></td>
+
+                
+                </tr>
+            </tbody>
+
+        </table>
+    </main>
+    </body>
+</html>

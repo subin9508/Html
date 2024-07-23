@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>부서 상세 정보</title>
+    <title>Spring Boot 2</title>
 </head>
 <body>
-    <h1>부서 상세 정보</h1>
+   <div th:replace="~{/layout/fragments :: pageHeader('부서 상세 페이지')}"></div>
     <div th:object="${department}">
         <p>부서 번호: <span th:text="*{id}"></span></p>
         <p>부서 이름: <span th:text="*{deptname}"></span></p>
