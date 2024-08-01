@@ -70,7 +70,7 @@ public class PostRepositoryTest {
 		// 엔터티가 존재하는 경우에 delete 쿼리를 실행함.
 	}
 	
-	@Test
+//	@Test
 	public void makeDummyData() {
 		List<Post> data = new ArrayList<Post>();
 		for(int i = 1; i <= 50; i++) {

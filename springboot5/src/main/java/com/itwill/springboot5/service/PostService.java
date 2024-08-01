@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.itwill.springboot5.domain.Post;
 import com.itwill.springboot5.dto.PostCreateDto;
 import com.itwill.springboot5.dto.PostListItemDto;
+import com.itwill.springboot5.dto.PostSearchRequestDto;
 import com.itwill.springboot5.dto.PostUpdateDto;
 import com.itwill.springboot5.repository.PostRepository;
 
@@ -81,6 +82,31 @@ public class PostService {
 			// postRepo.save(entity) 메서드를 직접 호출해야 함.
 		
 	
+		}
+		
+		@Transactional(readOnly = true)
+		public Page<PostListItemDto> search(PostSearchRequestDto dto, Sort sort) {
+			
+			log.info("search(dto={}, sort={})", dto, sort);
+			
+			Pageable pageable = PageRequest.of(dto.getP(), 5, sort);
+			Page<Post> result = null;
+			switch (dto.getCategory()) {
+			case "t":
+				result = postRepo.findByTitleOrContent(dto.getKeyword(), pageable);
+				break;
+			case "c":
+				result = postRepo.findByContentContainingIgnoreCase(dto.getKeyword(), pageable);
+				break;
+			case "tc":
+				result = postRepo.findByTitleOrContent(dto.getKeyword(), pageable);
+				break;
+			case "a":
+				result = postRepo.findByAuthorContainingIgnoreCase(dto.getKeyword(), pageable);
+				break;
+			}
+			
+			return result.map(PostListItemDto::fromEntity); // Post 엔터티로부터 PostListItemDto 타입을 만들어 낸다.
 		}
 		
 		@Transactional

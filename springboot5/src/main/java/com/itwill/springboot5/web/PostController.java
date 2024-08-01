@@ -1,13 +1,12 @@
 package com.itwill.springboot5.web;
 
-import java.util.List;
+
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.itwill.springboot5.domain.Post;
 import com.itwill.springboot5.dto.PostCreateDto;
 import com.itwill.springboot5.dto.PostListItemDto;
+import com.itwill.springboot5.dto.PostSearchRequestDto;
 import com.itwill.springboot5.dto.PostUpdateDto;
 import com.itwill.springboot5.service.PostService;
 
@@ -35,6 +35,9 @@ public class PostController {
 		// 서비스 계층의 메서드를 호출 -> 뷰에 포스트 목록 전달.
 		Page<PostListItemDto> list = postSvc.read(pageNo, Sort.by("id").descending());
 		model.addAttribute("page", list);
+		
+		// pagination fragment에서 사용하기 위한 현재 요청 주소 정보
+		model.addAttribute("baseUrl", "/post/list");
 	}
 	
 	@GetMapping("/create")
@@ -81,6 +84,19 @@ public class PostController {
 		postSvc.delete(id);
 		
 		return "redirect:/post/list";
+	}
+	
+	@GetMapping("/search")
+	public String search(PostSearchRequestDto dto, Model model) {
+		log.info("search(dto={})", dto);
+		
+		Page<PostListItemDto> result = postSvc.search(dto, Sort.by("id").descending());
+		model.addAttribute("page", result);
+		
+		// pagination fragment에서 사용할 현재 요청 주소 정보
+		model.addAttribute("baseUrl", "/post/search");
+		
+		return "post/list";
 	}
 	
 }
