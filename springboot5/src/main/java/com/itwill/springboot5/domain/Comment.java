@@ -19,7 +19,8 @@ import lombok.ToString;
 
 @NoArgsConstructor 
 @AllArgsConstructor(access = AccessLevel.PRIVATE) @Builder
-@Getter @ToString @EqualsAndHashCode(callSuper = true)
+@Getter @ToString (callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 @Entity @Table(name = "COMMENTS")
 public class Comment extends BaseTimeEntity {
 	@Id
@@ -36,5 +37,10 @@ public class Comment extends BaseTimeEntity {
 	
 	@Basic(optional = false)
 	private String writer;
+	
+	public Comment update(String text) {
+		this.ctext =text;
+		return this;
+	}
 
 }
