@@ -42,14 +42,14 @@ public class PostController {
 	}
 	
 //	@PreAuthorize("isAuthenticated()") //-> role에 상관없이 아이디/비밀번호로만 인증.
-	@PreAuthorize("hasRole(\'USER\')") //-> role이 일치하는 아이디/비밀번호 인증.
+	@PreAuthorize("hasRole('USER')") //-> role이 일치하는 아이디/비밀번호 인증.
 	@GetMapping("/create")
 	public void create() {
 		log.info("create() GET");
 	
 	}
 	
-	@PreAuthorize("hasRole(\'USER\')")
+	@PreAuthorize("hasRole('USER')")
 	@PostMapping("/create")
 	public String create(PostCreateDto dto) {
 		log.info("POST: create(dto={}", dto);
@@ -61,7 +61,7 @@ public class PostController {
 		
 	}
 	
-	@PreAuthorize("hasRole(\'USER\')")
+	@PreAuthorize("hasRole('USER')")
 	@GetMapping({"/details", "/modify" }) // 하나의 메서드가 2개의 요청을 처리함.
 	public void details(@RequestParam(name = "id") Long id, Model model) {
 		log.info("details(id={})", id);
@@ -74,7 +74,7 @@ public class PostController {
 	
 	}
 	
-	@PreAuthorize("hasRole(\'USER\')")
+	@PreAuthorize("hasRole('USER')")
 	@PostMapping("/update")
 	public String update(PostUpdateDto dto) {
 		log.info("update(dto={})", dto);
@@ -83,7 +83,7 @@ public class PostController {
 		return "redirect:/post/details?id=" + dto.getId();
 	}
 	
-	@PreAuthorize("hasRole(\'USER\')")
+	@PreAuthorize("hasRole('USER')")
 	@GetMapping("/delete")
 	public String delete(@RequestParam(name = "id") Long id) {
 		log.info("delete(id={})", id);

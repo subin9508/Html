@@ -88,7 +88,8 @@ public class SecurityConfig {
     	
 //    	 페이지 접근 권한, 인증 구성
 //    	 메서드를 호출할 수 있는 객체들이 아규먼트로 전달된다.
-//    	 http.authorizeHttpRequests((auth) -> 
+    	/*
+    	 http.authorizeHttpRequests((auth) -> 
 //    			모든 요청 주소에 대해서 (role에 상관없이) 아이디/비밀번호 인증을 하는 경우:
 //    		    auth.anyRequest().authenticated() 
 //   			
@@ -97,13 +98,13 @@ public class SecurityConfig {
 //   			auth.anyRequest().hasRole("USER")
 //   	
 //    			로그인이 필요한 페이지와 그렇지 않은 페이지를 구분해서 설정 구성:
-//    			auth.requestMatchers("/post/create", "/post/details",
-//    					"/post/modify", "/post/delete", "/post/update", "/api/comment/**")
-//    				.hasRole("USER")
-//    				.anyRequest() // 지정한 주소 외에 나머지 요청들은
-//    				.permitAll() // 모두 허가하겠다는 의미.
-//    			);
-//    	
+    			auth.requestMatchers("/post/create", "/post/details",
+    					"/post/modify", "/post/delete", "/post/update", "/api/comment/**")
+    				.hasRole("USER")
+    				.anyRequest() // 지정한 주소 외에 나머지 요청들은
+    				.permitAll() // 모두 허가하겠다는 의미.
+    			);
+    	*/
     	
     	
     	return http.build(); // DefaultSecurityFilterChain 객체를 생성해서 리턴.
