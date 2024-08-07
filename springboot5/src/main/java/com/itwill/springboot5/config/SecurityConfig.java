@@ -75,8 +75,10 @@ public class SecurityConfig {
     	http.csrf((csrf) -> csrf.disable()); // 기본값은 enable 
     	
     	// 로그인 페이지(폼) 설정 - 스프링 시큐리티에서 제공하는 기본 HTML 페이지를 사용.
-    	http.formLogin(Customizer.withDefaults());
-    	// TODO: Custom 로그인 HTML 페이지를 사용.
+    	// http.formLogin(Customizer.withDefaults());
+    	// Custom 로그인 HTML 페이지를 사용.
+    	// 인증이 필요한 페이지를 해당 주소("/member/signin")로 리다이렉트.
+    	http.formLogin((login) -> login.loginPage("/member/signin"));
     	
     	// 페이지 접근 권한, 인증 구성: 아래의 1 또는 2 방법 중 한 가지를 선택.
         // 1. HttpSecurity.authorizeHttpRequests(Customizer customizer) 메서드에서 설정.
