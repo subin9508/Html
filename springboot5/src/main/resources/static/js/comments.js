@@ -97,11 +97,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function makeCommentElements(data, pageNo) {
+        // 로그인 사용자 정보 -> 댓글 삭제/업데이트 버튼을 만들 지 여부를 결정.
+        const authUser = document.querySelector('span#authenticatedUser').innerText;
+//        console.log(`authUser = ${authUser}`);
+        
+        
         // 댓글 목록을 추가할 div 요소
         const divComments = document.querySelector('div#divComments');
         
         let htmlStr = ''; // div에 삽입할 html 코드(댓글 목록)
-        for (let comment of data) {
+        for (let comment of data) { // 배열에서 꺼낸 comment 타입 객체.
             // console.log(comment);
             htmlStr += `
             <div class="card card-body mt-2">
@@ -113,14 +118,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="mt-2">
                         <textarea class="commentText form-control" data-id="${comment.id}">${comment.ctext}</textarea>
                     </div>
-                    <div class="mt-2">
+                `;
+                if(authUser === comment.writer) {
+                    htmlStr += `
+                     <div class="mt-2">
                         <button class="btnDelete btn btn-outline-danger btn-sm" data-id="${comment.id}">삭제</button>
                         <button class="btnUpdate btn btn-outline-primary btn-sm" data-id="${comment.id}">수정</button>
                     </div>
                 </div>
             </div>
-            `; // 배열에서 꺼낸 comment 타입 객체.
+            `; 
+        } else {
+             htmlStr += `
+                </div>
+            </div>
+             `;
         }
+    }
         
         if (pageNo === 0) {
             // 댓글 목록 첫번째 페이지이면, 기존 내용을 다 지우고 새로 작성.
